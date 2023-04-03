@@ -2,8 +2,8 @@
 
 <launch>
 	<arg name="model" />
-	<param name="robot_description" textfile="$(find pan_tilt_description)/urdf/pan_tilt.urdf" />
+	<param name="robot_description" textfile="$(find cwork4)/urdf/kuka_robot.urdf" />
 	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 	<node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" />
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find pan_tilt_description)/urdf.rviz" required="true" />
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find cwork4)/urdf.rviz" required="true" />
 </launch>
