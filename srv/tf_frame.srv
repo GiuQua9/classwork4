@@ -1,4 +1,4 @@
-std_msgs/Int32 x
-std_msgs/Int32 y
+string frame_a
+string frame_b
 ---
-std_msgs/Int32 sum
+geometry_msgs/Pose pose

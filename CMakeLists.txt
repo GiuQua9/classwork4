@@ -12,6 +12,8 @@ find_package(catkin REQUIRED COMPONENTS
   message_runtime
   roscpp
   std_msgs
+  geometry_msgs
+  tf
 )
 
 ## System dependencies are found with CMake's conventions
@@ -70,6 +72,7 @@ add_service_files(
 generate_messages(
 	DEPENDENCIES
 	std_msgs
+  geometry_msgs
 )
 
 ################################################
@@ -120,8 +123,8 @@ include_directories(
 )
 
 
-add_executable(robo_client src/service_client.cpp)
-target_link_libraries( robo_client ${catkin_LIBRARIES})
+add_executable(kuka_client src/service_client.cpp)
+target_link_libraries( kuka_client ${catkin_LIBRARIES})
 
-add_executable(robo_server src/service_server.cpp)
-target_link_libraries( robo_server ${catkin_LIBRARIES})
+add_executable(kuka_server src/service_server.cpp)
+target_link_libraries( kuka_server ${catkin_LIBRARIES})
