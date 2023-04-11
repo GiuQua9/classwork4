@@ -1,5 +1,6 @@
 #include "ros/ros.h"
 #include "cwork4/tf_frame.h"
+#include "string.h"
 
 using namespace std;
 
@@ -12,7 +13,8 @@ int main(int argc, char **argv) {
 	ros::ServiceClient client = n.serviceClient<cwork4::tf_frame>("pose");
 	
 	cwork4::tf_frame srv;
-	srv.request.frame_a = "/base_link";
+
+	srv.request.frame_a = "base_link";
 	srv.request.frame_b  = "/camera_link";
 	
 	ROS_INFO("Waiting for the client server");
