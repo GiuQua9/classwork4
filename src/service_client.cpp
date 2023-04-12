@@ -1,6 +1,6 @@
 #include "ros/ros.h"
 #include "cwork4/tf_frame.h"
-#include "string.h"
+#include <tf/transform_broadcaster.h>
 
 using namespace std;
 
@@ -14,20 +14,35 @@ int main(int argc, char **argv) {
 	
 	cwork4::tf_frame srv;
 
-	srv.request.frame_a = "base_link";
-	srv.request.frame_b  = "/camera_link";
-	
-	ROS_INFO("Waiting for the client server");
-	client.waitForExistence();
-	ROS_INFO("Client server up now");
-	
-	if (!client.call(srv)) {
-		ROS_ERROR("Error calling the service");
-		return 1;
-	}
+	tf::TransformBroadcaster br;
+    tf::Transform transform;
 
-	//Just print the output
-	cout << "Service output: " << srv.response.pose << endl;
+	srv.request.frame_a = "base_link";
+	srv.request.frame_b  = "arm6_link";
+
+	ros::Rate r(10);
+	
+	while(ros::ok()){
+
+		ROS_INFO("Waiting for the client server");
+		client.waitForExistence();
+		ROS_INFO("Client server up now");
+		
+		if (!client.call(srv)) {
+			ROS_ERROR("Error calling the service");
+			return 1;
+		}
+
+		//Just print the output
+		cout << "Service output: " << srv.response.pose << endl;
+
+		tf::Quaternion q(srv.response.pose.orientation.x, srv.response.pose.orientation.y, srv.response.pose.orientation.z, srv.response.pose.orientation.w);
+        transform.setOrigin(tf::Vector3(srv.response.pose.position.x, srv.response.pose.position.y, srv.response.pose.position.z));
+        transform.setRotation(q);
+		br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), srv.request.frame_a, srv.request.frame_b));
+
+		r.sleep();
+	}
 	
 	return 0;
 }
